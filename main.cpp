@@ -30,6 +30,6 @@ int quantity_sold;
 int sold_date;
 };
 int main(){
-    cout<<"Hello, World!"<<endl;
+  
     return 0;
 }
