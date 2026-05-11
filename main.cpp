@@ -16,7 +16,7 @@ display_menu();
 return 0;
 }
 void display_menu(){
-cout<<"=>What do you want to:\n";
+cout<<"=>What do you want to do:\n";
 cout<<"\t1.Add Product\n";
 cout<<"\t1.Sell Product\n";
 cout<<"\t1.Search Product\n";
