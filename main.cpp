@@ -1,4 +1,5 @@
 #include<iostream>
+#include "functions.h"
 using namespace std;
 const int Max=100;int count=0;
 struct product{
