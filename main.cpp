@@ -12,7 +12,7 @@ double price;
 int quantity;
 string expiry_date;
 }inventory[Max];
-int generateID(vector<product> &inventory);
+int generateID(product inventory[], int count);
 int searchProductByName(product inventory[], int count, string name);
 void add_product(product inventory[],int &count);
 int searchProduct(product inventory[], int count, int id);
@@ -224,4 +224,43 @@ void add_product(product inventory[], int &count){
     cout << "Product added successfully.\n";
     cout << "Generated ID: " << p.id << endl;
 }
+void lowStockAlert(product inventory[], int count){
+int threshold;
+cout<<"Enter low stock threshold: ";
+cin>>threshold;
+bool found=false;
+for(int i=0;i<count;++i){
+if(inventory[i].quantity<=threshold){
+found=true;
+cout<<"ID: "<<inventory[i].id<<endl;
+cout<<"NAME: "<<inventory[i].name<<endl;
+cout<<"QUANTITY: "<<inventory[i].quantity<<endl;
+}
+}
+if(!found){
+cout<<"No low stock products found.\n";
+}
+}
+void updateProduct(product inventory[], int count){
+int id;
+cout<<"Enter product ID to update: ";
+cin>>id;
+int index=searchProduct(inventory,count,id);
+if(index==-1){
+cout<<"Product not found.\n";
+return ;
+}
+cin.ignore();
+cout<<"Enter new name: ";
+getline(cin, inventory[index].name);
+cout<<"Enter new category: ";
+getline(cin, inventory[index].category);
+cout<<"Enter new price: ";
+cin>>inventory[index].price;
+cout<<"Enter new quantity: ";
+cin>>inventory[index].quantity;
+cin.ignore();
+cout<<"Enter new expiry date: ";
+getline(cin, inventory[index].expiry_date);
+cout<<"Product updated successfully.\n";
 }
