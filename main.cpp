@@ -134,8 +134,85 @@ getline(cin, inventory[index].expiry_date);
 cout<<"Product updated successfully.\n";
 }
 int generateID(product inventory[], int count){
-if(count == 0){
+    if(count == 0){
         return 1000;
     }
-return inventory[count - 1].id + 1;
+    return inventory[count - 1].id + 1;
+}
+
+void add_product(product inventory[], int &count){
+    if(count >= Max){
+        cout << "Inventory is full.\n";
+        return;
+    }
+
+    product p;
+    string name;
+    int searchChoice;
+    char updateChoice;
+    int index = -1;
+
+    cout << "Do you want to search using:\n";
+    cout << "1 - Name\n";
+    cout << "2 - ID\n";
+    cout << "Choice: ";
+    cin >> searchChoice;
+
+    if(searchChoice == 1){
+        cout << "Enter product name: ";
+        cin.ignore();
+        getline(cin, name);
+        index = searchProductByName(inventory, count, name);
+    }
+    else if(searchChoice == 2){
+        cout << "Enter product ID: ";
+        cin >> p.id;
+        index = searchProduct(inventory, count, p.id);
+    }
+    else{
+        cout << "Invalid choice.\n";
+        return;
+    }
+
+    if(index != -1){
+        cout << "Product already exists.\n";
+        cout << "Do you want to update it? (y/n): ";
+        cin >> updateChoice;
+
+        if(updateChoice == 'y' || updateChoice == 'Y'){
+            updateProduct(inventory, count);
+        }
+        return;
+    }
+
+    if(searchChoice == 1){
+        p.name = name;
+    }
+    else{
+        cin.ignore();
+        cout << "Enter product name: ";
+        getline(cin, p.name);
+    }
+
+    p.id = generateID(inventory, count);
+
+    cout << "Enter price: ";
+    cin >> p.price;
+
+    cout << "Enter quantity: ";
+    cin >> p.quantity;
+
+    cin.ignore();
+    cout << "Enter category: ";
+    getline(cin, p.category);
+
+    cout << "Enter expiry date: ";
+    getline(cin, p.expiry_date);
+
+    inventory[count] = p;
+    count++;
+
+    cout << "Product added successfully.\n";
+    cout << "Generated ID: " << p.id << endl;
+}
 }
