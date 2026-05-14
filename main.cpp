@@ -15,6 +15,7 @@ string expiry_date;
 int generateID(vector<product> &inventory);
 void add_product(product inventory[],int &count);
 int searchProduct(product inventory[], int count, int id);
+int searchProductByName(product inventory[], int count, string name);
 void searchProductMenu(product inventory[], int count);
 void sellProduct(product inventory[], int count);
 void displayProducts(product inventory[], int count);
@@ -132,6 +133,14 @@ cin.ignore();
 cout<<"Enter new expiry date: ";
 getline(cin, inventory[index].expiry_date);
 cout<<"Product updated successfully.\n";
+}
+int searchProductByName(product inventory[], int count, string name){
+    for(int i = 0; i < count; i++){
+        if(inventory[i].name == name){
+            return i;
+        }
+    }
+    return -1;
 }
 int generateID(product inventory[], int count){
 if(count == 0){
