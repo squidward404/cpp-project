@@ -269,7 +269,7 @@ if(count==0){
 cout<<"inventory is empty.\n";
 return ;
 }
-cout<<"\n"<<setw(50)<< "##### PRODUCT LIST #####\n";
+cout<<"\n"<<right<<setw(50)<< "##### PRODUCT LIST #####\n";
 cout<<left<<setw(10)<<"ID"<<setw(20)<<"NAME"<<setw(20)<<"CATEGORY"<<setw(10)<<"PRICE"<<setw(10) << "QUANTITY"<< setw(15) << "EXPIRY DATE"<< endl;
 for(int i=0;i<count;++i){
 cout << left
@@ -290,7 +290,7 @@ if(!file){
 cout<<"Error creating file.\n";
 return;
 }
-file<<"\n"<<setw(50)<<"##### PRODUCT LIST #####\n";
+file<<"\n"<<right<<setw(50)<<"##### PRODUCT LIST #####\n";
 file<<left<<setw(10)<<"ID"<<setw(20)<<"NAME"<<setw(20)<<"CATEGORY"<<setw(10)<<"PRICE"<<setw(10) << "QUANTITY"<< setw(15) << "EXPIRY DATE"<< endl;
 for(int i=0;i<count;++i){
 file<<left
