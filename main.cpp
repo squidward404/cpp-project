@@ -146,6 +146,7 @@ int generateID(product inventory[], int count){
     if(count == 0){
         return 1000;
     }
+
     return inventory[count - 1].id + 1;
 }
 
@@ -158,7 +159,6 @@ void add_product(product inventory[], int &count){
     product p;
     string name;
     int searchChoice;
-    char updateChoice;
     int index = -1;
 
     cout << "Do you want to search using:\n";
@@ -171,36 +171,48 @@ void add_product(product inventory[], int &count){
         cout << "Enter product name: ";
         cin.ignore();
         getline(cin, name);
+
         index = searchProductByName(inventory, count, name);
+
+        if(index != -1){
+            int extra;
+            cout << "Product already exists.\n";
+            cout << "Enter quantity to add: ";
+            cin >> extra;
+
+            inventory[index].quantity += extra;
+
+            cout << "Stock updated.\n";
+            return;
+        }
+
+        p.name = name;
     }
     else if(searchChoice == 2){
         cout << "Enter product ID: ";
         cin >> p.id;
+
         index = searchProduct(inventory, count, p.id);
+
+        if(index != -1){
+            int extra;
+            cout << "Product already exists.\n";
+            cout << "Enter quantity to add: ";
+            cin >> extra;
+
+            inventory[index].quantity += extra;
+
+            cout << "Stock updated.\n";
+            return;
+        }
+
+        cin.ignore();
+        cout << "Enter product name: ";
+        getline(cin, p.name);
     }
     else{
         cout << "Invalid choice.\n";
         return;
-    }
-
-    if(index != -1){
-        cout << "Product already exists.\n";
-        cout << "Do you want to update it? (y/n): ";
-        cin >> updateChoice;
-
-        if(updateChoice == 'y' || updateChoice == 'Y'){
-            updateProduct(inventory, count);
-        }
-        return;
-    }
-
-    if(searchChoice == 1){
-        p.name = name;
-    }
-    else{
-        cin.ignore();
-        cout << "Enter product name: ";
-        getline(cin, p.name);
     }
 
     p.id = generateID(inventory, count);
@@ -212,6 +224,7 @@ void add_product(product inventory[], int &count){
     cin >> p.quantity;
 
     cin.ignore();
+
     cout << "Enter category: ";
     getline(cin, p.category);
 
@@ -224,85 +237,56 @@ void add_product(product inventory[], int &count){
     cout << "Product added successfully.\n";
     cout << "Generated ID: " << p.id << endl;
 }
+
 void lowStockAlert(product inventory[], int count){
-int threshold;
-cout<<"Enter low stock threshold: ";
-cin>>threshold;
-bool found=false;
-for(int i=0;i<count;++i){
-if(inventory[i].quantity<=threshold){
-found=true;
-cout<<"ID: "<<inventory[i].id<<endl;
-cout<<"NAME: "<<inventory[i].name<<endl;
-cout<<"QUANTITY: "<<inventory[i].quantity<<endl;
+    int threshold;
+
+    cout << "Enter low stock threshold: ";
+    cin >> threshold;
+
+    bool found = false;
+
+    for(int i = 0; i < count; ++i){
+        if(inventory[i].quantity <= threshold){
+            found = true;
+
+            cout << "ID: " << inventory[i].id << endl;
+            cout << "NAME: " << inventory[i].name << endl;
+            cout << "QUANTITY: " << inventory[i].quantity << endl;
+        }
+    }
+
+    if(!found){
+        cout << "No low stock products found.\n";
+    }
 }
-}
-if(!found){
-cout<<"No low stock products found.\n";
-}
-}
-void updateProduct(product inventory[], int count){
-int id;
-cout<<"Enter product ID to update: ";
-cin>>id;
-int index=searchProduct(inventory,count,id);
-if(index==-1){
-cout<<"Product not found.\n";
-return ;
-}
-cin.ignore();
-cout<<"Enter new name: ";
-getline(cin, inventory[index].name);
-cout<<"Enter new category: ";
-getline(cin, inventory[index].category);
-cout<<"Enter new price: ";
-cin>>inventory[index].price;
-cout<<"Enter new quantity: ";
-cin>>inventory[index].quantity;
-cin.ignore();
-cout<<"Enter new expiry date: ";
-getline(cin, inventory[index].expiry_date);
-cout<<"Product updated successfully.\n";
-}
+
 void displayProducts(product inventory[], int count){
-if(count==0){
-cout<<"inventory is empty.\n";
-return ;
-}
-cout<<"\n"<<right<<setw(50)<< "##### PRODUCT LIST #####\n";
-cout<<left<<setw(10)<<"ID"<<setw(20)<<"NAME"<<setw(20)<<"CATEGORY"<<setw(10)<<"PRICE"<<setw(10) << "QUANTITY"<< setw(15) << "EXPIRY DATE"<< endl;
-for(int i=0;i<count;++i){
-cout << left
-     << setw(10) << inventory[i].id
-     << setw(20) << inventory[i].name
-     << setw(20) << inventory[i].category
-     << setw(10) << inventory[i].price
-     << setw(10) << inventory[i].quantity
-     << setw(15) << inventory[i].expiry_date
-     << endl;
-}
-char choice;
-cout<<"\nDo you want to save the product list to a text file? (y/n): "; 
-cin>>choice;
-if(choice=='y' || choice=='Y'){
-ofstream file("inventory.txt");
-if(!file){
-cout<<"Error creating file.\n";
-return;
-}
-file<<"\n"<<right<<setw(50)<<"##### PRODUCT LIST #####\n";
-file<<left<<setw(10)<<"ID"<<setw(20)<<"NAME"<<setw(20)<<"CATEGORY"<<setw(10)<<"PRICE"<<setw(10) << "QUANTITY"<< setw(15) << "EXPIRY DATE"<< endl;
-for(int i=0;i<count;++i){
-file<<left
-<<setw(10)<<inventory[i].id
-<<setw(20)<<inventory[i].name
-<<setw(20)<<inventory[i].category
-<<setw(10)<<fixed<<setprecision(2)<<inventory[i].price
-<<setw(10)<<inventory[i].quantity
-<<setw(15)<<inventory[i].expiry_date
-<<endl;
-}
-file.close();
-cout<<"Product list saved successfully to inventory.txt\n";
-}
+    if(count == 0){
+        cout << "Inventory is empty.\n";
+        return;
+    }
+
+    cout << "\n" << right << setw(50)
+         << "##### PRODUCT LIST #####\n";
+
+    cout << left
+         << setw(10) << "ID"
+         << setw(20) << "NAME"
+         << setw(20) << "CATEGORY"
+         << setw(10) << "PRICE"
+         << setw(10) << "QUANTITY"
+         << setw(15) << "EXPIRY DATE"
+         << endl;
+
+    for(int i = 0; i < count; ++i){
+        cout << left
+             << setw(10) << inventory[i].id
+             << setw(20) << inventory[i].name
+             << setw(20) << inventory[i].category
+             << setw(10) << inventory[i].price
+             << setw(10) << inventory[i].quantity
+             << setw(15) << inventory[i].expiry_date
+             << endl;
+    }
 }
