@@ -148,3 +148,37 @@ if(count == 0){
     }
 return inventory[count - 1].id + 1;
 }
+void add_product(product inventory[], int &count){
+if(count >= Max){
+cout<<"Inventory is full.\n";
+return;
+}
+product p;
+cout << "Enter product name: ";
+cin.ignore();
+getline(cin,p.name);
+int index = searchProductByName(inventory,count,p.name);
+if(index!=-1){
+int extra;
+cout<<"Product already exists.\n";
+cout<<"Enter quantity to add: ";
+cin>>extra;
+inventory[index].quantity+=extra;
+cout<<"Stock updated.\n";
+return ;
+}
+p.id = generateID(inventory, count);
+cout<<"Enter price: ";
+cin>>p.price;
+cout<<"Enter quantity: ";
+cin>>p.quantity;
+cin.ignore();
+cout<<"Enter category: ";
+getline(cin, p.category);
+cout<<"Enter expiry date: ";
+getline(cin,p.expiry_date);
+inventory[count]=p;
+count++;
+cout<<"Product added successfully.\n";
+cout<<"Generated ID: "<<p.id<<endl;
+}
