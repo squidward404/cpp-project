@@ -26,7 +26,7 @@ Run the binary; it will create/use `inventory.db` in the working directory:
 A small sample product was added locally for convenience(see `products.csv`.)
 
 **Group Information**
-
+- Section: A
 - Group Number: 10
 - Course: Fundamentals of programming II
 - Department: Software Engineering, AASTU
