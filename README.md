@@ -17,7 +17,7 @@ g++ inventory.cpp -o inventory -lsqlite3 -std=c++17
 ```
 
 **Run**
-Run the binary; it will create/use `inventory.db` in the working directory:
+Run the binary: it will create/use `inventory.db` in the working directory:
 
 ```bash
 ./inventory
