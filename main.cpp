@@ -12,7 +12,7 @@ double price;
 int quantity;
 string expiry_date;
 }inventory[Max];
-int generateID(vector<product> &inventory);
+int generateID(product inventory[], int count);
 int searchProductByName(product inventory[], int count, string name);
 void add_product(product inventory[],int &count);
 int searchProduct(product inventory[], int count, int id);
@@ -143,42 +143,150 @@ int searchProductByName(product inventory[], int count, string name){
     return -1;
 }
 int generateID(product inventory[], int count){
-if(count == 0){
+    if(count == 0){
         return 1000;
     }
-return inventory[count - 1].id + 1;
+
+    return inventory[count - 1].id + 1;
 }
+
 void add_product(product inventory[], int &count){
-if(count >= Max){
-cout<<"Inventory is full.\n";
-return;
+    if(count >= Max){
+        cout << "Inventory is full.\n";
+        return;
+    }
+
+    product p;
+    string name;
+    int searchChoice;
+    int index = -1;
+
+    cout << "Do you want to search using:\n";
+    cout << "1 - Name\n";
+    cout << "2 - ID\n";
+    cout << "Choice: ";
+    cin >> searchChoice;
+
+    if(searchChoice == 1){
+        cout << "Enter product name: ";
+        cin.ignore();
+        getline(cin, name);
+
+        index = searchProductByName(inventory, count, name);
+
+        if(index != -1){
+            int extra;
+            cout << "Product already exists.\n";
+            cout << "Enter quantity to add: ";
+            cin >> extra;
+
+            inventory[index].quantity += extra;
+
+            cout << "Stock updated.\n";
+            return;
+        }
+
+        p.name = name;
+    }
+    else if(searchChoice == 2){
+        cout << "Enter product ID: ";
+        cin >> p.id;
+
+        index = searchProduct(inventory, count, p.id);
+
+        if(index != -1){
+            int extra;
+            cout << "Product already exists.\n";
+            cout << "Enter quantity to add: ";
+            cin >> extra;
+
+            inventory[index].quantity += extra;
+
+            cout << "Stock updated.\n";
+            return;
+        }
+
+        cin.ignore();
+        cout << "Enter product name: ";
+        getline(cin, p.name);
+    }
+    else{
+        cout << "Invalid choice.\n";
+        return;
+    }
+
+    p.id = generateID(inventory, count);
+
+    cout << "Enter price: ";
+    cin >> p.price;
+
+    cout << "Enter quantity: ";
+    cin >> p.quantity;
+
+    cin.ignore();
+
+    cout << "Enter category: ";
+    getline(cin, p.category);
+
+    cout << "Enter expiry date: ";
+    getline(cin, p.expiry_date);
+
+    inventory[count] = p;
+    count++;
+
+    cout << "Product added successfully.\n";
+    cout << "Generated ID: " << p.id << endl;
 }
-product p;
-cout << "Enter product name: ";
-cin.ignore();
-getline(cin,p.name);
-int index = searchProductByName(inventory,count,p.name);
-if(index!=-1){
-int extra;
-cout<<"Product already exists.\n";
-cout<<"Enter quantity to add: ";
-cin>>extra;
-inventory[index].quantity+=extra;
-cout<<"Stock updated.\n";
-return ;
+
+void lowStockAlert(product inventory[], int count){
+    int threshold;
+
+    cout << "Enter low stock threshold: ";
+    cin >> threshold;
+
+    bool found = false;
+
+    for(int i = 0; i < count; ++i){
+        if(inventory[i].quantity <= threshold){
+            found = true;
+
+            cout << "ID: " << inventory[i].id << endl;
+            cout << "NAME: " << inventory[i].name << endl;
+            cout << "QUANTITY: " << inventory[i].quantity << endl;
+        }
+    }
+
+    if(!found){
+        cout << "No low stock products found.\n";
+    }
 }
-p.id = generateID(inventory, count);
-cout<<"Enter price: ";
-cin>>p.price;
-cout<<"Enter quantity: ";
-cin>>p.quantity;
-cin.ignore();
-cout<<"Enter category: ";
-getline(cin, p.category);
-cout<<"Enter expiry date: ";
-getline(cin,p.expiry_date);
-inventory[count]=p;
-count++;
-cout<<"Product added successfully.\n";
-cout<<"Generated ID: "<<p.id<<endl;
+
+void displayProducts(product inventory[], int count){
+    if(count == 0){
+        cout << "Inventory is empty.\n";
+        return;
+    }
+
+    cout << "\n" << right << setw(50)
+         << "##### PRODUCT LIST #####\n";
+
+    cout << left
+         << setw(10) << "ID"
+         << setw(20) << "NAME"
+         << setw(20) << "CATEGORY"
+         << setw(10) << "PRICE"
+         << setw(10) << "QUANTITY"
+         << setw(15) << "EXPIRY DATE"
+         << endl;
+
+    for(int i = 0; i < count; ++i){
+        cout << left
+             << setw(10) << inventory[i].id
+             << setw(20) << inventory[i].name
+             << setw(20) << inventory[i].category
+             << setw(10) << inventory[i].price
+             << setw(10) << inventory[i].quantity
+             << setw(15) << inventory[i].expiry_date
+             << endl;
+    }
 }
