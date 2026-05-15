@@ -7,13 +7,8 @@ Simple C++ inventory manager using SQLite for storage. This repository contains 
 - [.gitignore](.gitignore): ignores `inventory.db` and build artifacts
 - [dump.sql](dump.sql): SQL dump of the `inventory.db` (schema + data)
 - [products.csv](products.csv): CSV export of the `products` table
-<<<<<<< Updated upstream
 - [CONTRIBUTIONS.md](CONTRIBUTIONS.md): project contributions of each member
-  
-=======
-- [CONTRIBUTIONS.md](CONTRIBUTIONS.md): project contributions and ownership
 
->>>>>>> Stashed changes
 **Build**
 Install `sqlite3` development headers and a C++ toolchain, then compile:
 
@@ -36,7 +31,6 @@ A small sample product was added locally for convenience(see `products.csv`.)
 - Group Number: 10
 - Course: Fundamentals of programming II
 - Department: Software Engineering, AASTU
-
 - Instructor: Eleni Teshome
 
 **Group Members**
