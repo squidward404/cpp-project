@@ -1,0 +1,5 @@
+inventory.db
+
+*.o
+*.out
+*.exe
