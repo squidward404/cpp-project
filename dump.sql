@@ -9,5 +9,5 @@ CREATE TABLE products
     quantity INTEGER NOT NULL,
     expiry_date TEXT
 );
-INSERT INTO products VALUES(1000,'Sample Product','Test',9.99000000000000021,5,'2026-12-31');
+INSERT INTO products VALUES(1000,'Sample Product','Test',9.99,5,'2026-12-31');
 COMMIT;
